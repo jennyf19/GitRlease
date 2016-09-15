@@ -13,9 +13,6 @@ namespace GitRlease
         {
             myAsyncMethod();
 
-            
-
-
             Console.ReadLine();
             
             //string versionNumber = args[0];
@@ -68,8 +65,9 @@ namespace GitRlease
             //var tag = await client.GitDatabase.Tags.Get("octokit", "octokit.net", "v1.0.0");
             #endregion
 
-            var tagsResult = await client.Repository.GetAllTags(result.Id);
-            var tag = tagsResult.FirstOrDefault();
+            var tag = await client.GitDatabase.Tags.Get("jennyf19", "binaryTree", "v1.0.0");
+            /*var tagsResult = await client.Repository.GetAllTags(result.Id);
+            var tag = tagsResult.FirstOrDefault();*/
 
             if (tag == null) Console.WriteLine("null!");
             else
