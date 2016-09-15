@@ -1,9 +1,12 @@
 ﻿using Octokit;
+using Octokit.Helpers;
+using Octokit.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace GitRlease
 {
@@ -14,7 +17,7 @@ namespace GitRlease
             myAsyncMethod();
 
             Console.ReadLine();
-            
+
             //string versionNumber = args[0];
             //Console.WriteLine(args.Count());
             //Console.WriteLine(args[0]);
@@ -65,17 +68,23 @@ namespace GitRlease
             //var tag = await client.GitDatabase.Tags.Get("octokit", "octokit.net", "v1.0.0");
             #endregion
 
-            var tag = await client.GitDatabase.Tags.Get("jennyf19", "binaryTree", "v1.0.0");
-            /*var tagsResult = await client.Repository.GetAllTags(result.Id);
-            var tag = tagsResult.FirstOrDefault();*/
+            //var tag = await client.GitDatabase.Tags.Get("jennyf19", "binaryTree", "v1.0.0");
+            var tagsResult = await client.Repository.GetAllTags(result.Id);
+            var tag = tagsResult.FirstOrDefault();
 
             if (tag == null) Console.WriteLine("null!");
             else
             {
                 NewRelease data = new NewRelease(tag.Name);
-                Release releaseResult = await client.Repository.Release.Create("jennyf19", "BinaryTree", data);
+                try
+                {
+                    Release releaseResult = await client.Repository.Release.Create("jennyf19", "BinaryTree", data);
+                } catch (Octokit.NotFoundException e)
+                {
+                    Console.WriteLine("Not found exception");
+                }
             }
-            
+
             Console.WriteLine("All done.");
         }
     }
