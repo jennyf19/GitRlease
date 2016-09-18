@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 
+
 namespace GitRlease
 {
     class Program
@@ -35,8 +36,14 @@ namespace GitRlease
         public static async void myAsyncMethod()
         {
             var client = new GitHubClient(new ProductHeaderValue("JennysAwesomeGitRelease"));
+            //var db = new GitDatabaseClient();
+            //db.Tag.Get
             Repository result = await client.Repository.Get("jennyf19", "BinaryTree");
             Console.WriteLine(result.Id);
+            Console.WriteLine(result.GitUrl);
+            Console.WriteLine(result.FullName);
+            Console.WriteLine(result.StargazersCount);
+            Console.WriteLine(result.Url);
 
             #region Add code here to create a new tag...
             //# Working with the Git Database
@@ -67,7 +74,7 @@ namespace GitRlease
 
             //var tag = await client.GitDatabase.Tags.Get("octokit", "octokit.net", "v1.0.0");
             #endregion
-
+            //var tag = await client.Git.Tag.Get("jennyf19", "binaryTree", "v1.0.0");
             //var tag = await client.GitDatabase.Tags.Get("jennyf19", "binaryTree", "v1.0.0");
             var tagsResult = await client.Repository.GetAllTags(result.Id);
             var tag = tagsResult.FirstOrDefault();
